@@ -8,7 +8,7 @@ Script for evaluating a classification model using ROC plot, AUC, balanced accur
 """
 
 import numpy as np
-from sklearn.metrics import roc_curve, auc
+from sklearn.metrics import auc
 from numpy import genfromtxt
 from sklearn.discriminant_analysis import LinearDiscriminantAnalysis
 from sklearn.linear_model import LogisticRegression

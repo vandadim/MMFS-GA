@@ -16,8 +16,8 @@ from deap import base, creator, tools, algorithms
 import random, pickle, fcntl, os
 import numpy as np
 from sklearn.metrics import balanced_accuracy_score,f1_score#confusion_matrix
-from sklearn.discriminant_analysis import LinearDiscriminantAnalysis
-# from sklearn.linear_model import LogisticRegression
+# from sklearn.discriminant_analysis import LinearDiscriminantAnalysis
+from sklearn.linear_model import LogisticRegression
 
 
 
@@ -32,6 +32,9 @@ def generateBit(ps,pu):
 # Here we generate Bits for pops based on each data view  
 #################################################################################################################
 def generateIntBit():
+    """
+    Generate bits for pops based on each data view 
+    """
     return int(np.random.randint(0,3))
 #################################################################################################################
 
@@ -160,8 +163,9 @@ def check_pop(population_a, all_pop, dat,nf, nb):
                 # split the training data
                 X_train, X_test = new_data[train_index],new_data[test_index]
                 y_train, y_test = label[train_index], label[test_index]
-                # set and fit random forest model
-                cl_rf = LinearDiscriminantAnalysis()
+                
+                # cl_rf = LinearDiscriminantAnalysis()
+                cl_rf = LogisticRegression(multi_class='multinomial', solver='lbfgs',max_iter=1000)
                 cl_rf.fit(X_train, y_train)
                 y_pred=cl_rf.predict(X_test)
                 scores.append(balanced_accuracy_score(y_test, y_pred))
@@ -213,7 +217,8 @@ def evalfunction(individual, data, nf, nb):
             y_train, y_test = y[train_index], y[test_index]
             
             # Create a Linear Discriminant Analysis (LDA) model and fit it to the training data
-            cl_rf = LinearDiscriminantAnalysis()
+            cl_rf = LogisticRegression(multi_class='multinomial', solver='lbfgs',max_iter=1000)
+            # cl_rf = LinearDiscriminantAnalysis()
         
             cl_rf.fit(X_train, y_train)
             y_pred=cl_rf.predict(X_test)
@@ -273,11 +278,10 @@ def evalfunctionGA2(individual, allPopulations, data, nf, nb):    #Vandad
               
                 # split the training data
                 X_train, X_test = X[train_index], X[test_index]            
-                y_train, y_test = y[train_index], y[test_index]
+                y_train, y_test = y[train_index], y[test_index]           
             
-            
-            # set and fit random forest model
-                cl_rf = LinearDiscriminantAnalysis()
+                cl_rf = LogisticRegression(multi_class='multinomial', solver='lbfgs',max_iter=1000)
+                # cl_rf = LinearDiscriminantAnalysis()
                 cl_rf.fit(X_train, y_train)
                 y_pred=cl_rf.predict(X_test)
                 scores.append(balanced_accuracy_score(y_test, y_pred))

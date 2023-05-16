@@ -15,7 +15,8 @@ import mmfs2GA as mmfs
 from multiprocessing import Event, Pipe, Process, Queue
 from collections import deque
 from numpy import genfromtxt
-from sklearn.discriminant_analysis import LinearDiscriminantAnalysis
+# from sklearn.discriminant_analysis import LinearDiscriminantAnalysis
+from sklearn.linear_model import LogisticRegression
 from sklearn import model_selection 
 from sklearn.metrics import balanced_accuracy_score
 
@@ -63,7 +64,7 @@ def check_pop(solution, all_pop, dat,nf, nb):
     Returns:
     - value (int): accuracy of selected features
     - feature size (int): number of selected features
-    - selected features(np.ndarray): selected features
+    - chromosome_mask (np.ndarray): selected features
     """
     
     solution=np.array(solution)
@@ -86,7 +87,8 @@ def check_pop(solution, all_pop, dat,nf, nb):
             
             X_train, X_test = new_data[train_index],new_data[test_index]
             y_train, y_test = label[train_index], label[test_index]            
-            cl_rf = LinearDiscriminantAnalysis()
+            # cl_rf = LinearDiscriminantAnalysis()
+            cl_rf = LogisticRegression(multi_class='multinomial', solver='lbfgs',max_iter=1000)
             cl_rf.fit(X_train, y_train)
             y_pred=cl_rf.predict(X_test)
             scores.append(balanced_accuracy_score(y_test, y_pred))                
@@ -133,7 +135,7 @@ def mmfsga(inputfile, outputdir, real_A=None, real_B=None, ngen=1000, npop=200, 
     This script runs the 'ivfs' function from the 'mmfs2GA' module on multiple processes,
     using a set of input parameters and input files.
     Parameters:
-        inputfile (list): List of input files containing data in CSV format
+        inputfile (list): data set as a list of tuple (Each tuple is one view)
         outputdir (str): Path to the output directory where the MMFSGA results will be saved
         REAL_A (ndarray, optional): Optional true feature matrix for input file A. Defaults to None.
         REAL_B (ndarray, optional): Optional true feature matrix for input file B. Defaults to None.
