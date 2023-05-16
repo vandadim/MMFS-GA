@@ -780,7 +780,7 @@ def ivfs(procid, dat, ngen, pipein, pipeout, sync, ev,
             # Collect the best individuals at end of generation    
             if  gen % gen_rate == 0:
                 best_inds.append(np.array(findBestAccuracy(good_population, Main_ACC)[0]))
-                ACC_BEST=np.array(findBestAccuracy(good_population, Main_ACC)[0])#################
+                ACC_BEST=np.array(findBestAccuracy(good_population, Main_ACC)[0])
                 best_inds.append(np.array(findMostRepeated(good_population)))
                 REP_BEST=np.array(findMostRepeated(good_population))
                 # Calculate the f1 score between true features and selected features

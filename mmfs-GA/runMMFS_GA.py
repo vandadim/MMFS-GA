@@ -3,7 +3,7 @@ Created on Thu Jul  7 18:10:46 2022
 @author: Vandad Imami
 
 This script runs the MMFS-GA algorithm to optimize a Multimodal feature selection problem
-using Linear classifier. 
+using linear classifier. 
 Linear Discriminant Analysis (LDA) for binary classification and Multinomial Logistic regression
 for multicalss classification.
 # This script loads each dataset from CSV files, where the path to the data files need to be specified by inputfiles variable.
@@ -49,18 +49,21 @@ def load_data(file):
 ###############################################################################
 def check_pop(solution, all_pop, dat,nf, nb):
     """
-    Evaluates a solution using Linear Discriminant Analysis (LDA) to classify data.
+    Evaluates a solution using linear classifier.
+    LDA for binary classification and Multinomial Logistic regression
+    for multicalss classification.
     
     Args:
     - solution (np.ndarray): An array of binary values representing the selected features
-    - all_pop (np.ndarray): An array containing all possible feature indices
+    - all_pop (np.ndarray): An array containing all possible feature selected from different views
     - dat (list): A list of tuples, each containing the training data and class labels
     - nf (int): The number of folds for cross-validation
     - nb (int): The number of times to repeat the cross-validation process
     
     Returns:
-    - result (tuple): A tuple containing the mean accuracy of the classifier and the number
-                      of selected features
+    - value (int): accuracy of selected features
+    - feature size (int): number of selected features
+    - selected features(np.ndarray): selected features
     """
     
     solution=np.array(solution)
@@ -90,9 +93,8 @@ def check_pop(solution, all_pop, dat,nf, nb):
         mean_scores.append(np.mean(scores))            
     value = np.mean(mean_scores)
     
-    return  value, sum(chromosome_mask)
+    return  value, sum(chromosome_mask),chromosome_mask
 ###############################################################################
-"""      Define function to find best solution between Niches               """    
 ###############################################################################
 def final_result(result1_list,result3_list,dat):
     """
@@ -114,12 +116,13 @@ def final_result(result1_list,result3_list,dat):
     for i in range (len(result1_list)):
         solution = result1_list[i]
         all_pop = result3_list[i] 
-        [accuracy,fe_size]=check_pop(solution, all_pop, dat,nf=10, nb=10)
+        [accuracy,fe_size, selec_features]=check_pop(solution, all_pop, dat,nf=10, nb=10)
         if accuracy>initial_Acc or (accuracy == initial_Acc and fe_size < initial_Size):
             best_Solution=solution            
             initial_Acc=accuracy
             initial_Size=fe_size
-            
+            best_select_features=selec_features
+    np.savetxt('SelectedFeatures.csv', best_select_features)
     return best_Solution,initial_Size
                              
 ###############################################################################
@@ -195,12 +198,12 @@ def mmfsga(inputfile, outputdir, real_A=None, real_B=None, ngen=1000, npop=200, 
 """                      The Path on Input and Output                       """    
 ###############################################################################
 # The path to the input data CSV file
-inputfiles = ['/home/users/vandadim/Desktop/ab/GeneticAlgorithm/Python/Data/MULTI_View_DATA/FINAL/multiNomial/latest_Data/MCIvsAD/1/DATA_500/Data_1.csv',
-              '/home/users/vandadim/Desktop/ab/GeneticAlgorithm/Python/Data/MULTI_View_DATA/FINAL/multiNomial/latest_Data/MCIvsAD/1/DATA_500/Data_2.csv']
+inputfiles = ['../DATA_500/Data_1.csv',
+              '../DATA_500/Data_2.csv']
 # The path to the output directory where the MMFSGA results will be saved
-outputdirs = ['/home/users/vandadim/Desktop/ab/GeneticAlgorithm/Python/Data/MULTI_View_DATA/FINAL/multiNomial/latest_Data/MCIvsAD/1/Data_A_1',
-              '/home/users/vandadim/Desktop/ab/GeneticAlgorithm/Python/Data/MULTI_View_DATA/FINAL/multiNomial/latest_Data/MCIvsAD/1/Data_A_2',
-              '/home/users/vandadim/Desktop/ab/GeneticAlgorithm/Python/Data/MULTI_View_DATA/FINAL/multiNomial/latest_Data/MCIvsAD/1/Last_ANS']
+outputdirs = ['../1/Data_A_1',
+              '../1/Data_A_2',
+              '../1/Last_ANS']
 
 ###############################################################################
 """       Optional step to check the F1-score between 
