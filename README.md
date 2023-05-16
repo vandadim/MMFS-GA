@@ -14,10 +14,8 @@
 
 ## Table of content
 - [1. Introduction](#id-section1)
-- [2. Software implementations](#id-section2)
-- [3. Missing values](#id-section3)
-- [4. FAQs](#id-section3)
-- [5. News](#id-section3)
+- [2. Implementations](#id-section2)
+- 
 
 <div id='id-section1'/>
 
