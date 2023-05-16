@@ -14,8 +14,7 @@
 
 ## Table of content
 - [1. Introduction](#id-section1)
-- [2. Implementations](#id-section2)
-- 
+- [2. Implementations](#id-section2) 
 
 <div id='id-section1'/>
 
@@ -29,10 +28,19 @@ Multi-view datasets contain multiple forms of data and are beneficial for predic
 
 To facilitate the implementation of our proposed approach, we provide this repository that includes the necessary code and resources. Before running the code, please make sure to install the required [DEAP](https://github.com/DEAP/deap) package by following this [link](https://pypi.org/project/deap/).
 
-### Input and parameters
+The [runMMFS_GA](https://github.com/vandadim/MMFS-GA/blob/main/mmfs-GA/runMMFS_GA.py) script is designed to optimize a Multimodal Feature Selection (MMFS) problem using the genetic algorithm. The script executes the ivfs function from the [mmfs2GA](https://github.com/vandadim/MMFS-GA/blob/main/mmfs-GA/mmfs2GA.py) module, leveraging parallel processing with multiple processes. It takes a set of input parameters and input files as its inputs.
 
+### Input
 
+- ***inputfile (list):*** The data set provided as a list of tuples, where each tuple represents one view of the data.
+- ***outputdir (str):*** The path to the output directory where the results of MMFSGA will be saved.
+- ***REAL_A (ndarray, optional):*** An optional true feature matrix for input file A. If not provided, it defaults to None.
+- ***REAL_B (ndarray, optional):*** An optional true feature matrix for input file B. If not provided, it defaults to None.
+outputdir (str): 
+ 
+### Output
 
+The [runMMFS_GA](https://github.com/vandadim/MMFS-GA/blob/main/mmfs-GA/runMMFS_GA.py) script produces a set of selected features that can be utilized in the [result_acc](https://github.com/vandadim/MMFS-GA/blob/main/mmfs-GA/results_acc.py) function to evaluate a classification model. The evaluation includes generating a ROC plot, calculating the Area Under the Curve (AUC), Balanced Accuracy, Recall, Specificity, and Sensitivity.
 
 --------
 **References**: If you are using MMFS-GA for the Multimodal feature selection, please cite the following paper:
