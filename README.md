@@ -48,4 +48,4 @@ The [runMMFS_GA](https://github.com/vandadim/MMFS-GA/blob/main/mmfs-GA/runMMFS_G
 
 |       | Citation     | Paper Link
 | -------------  | -------------  | -------------  |
-| MMFS-GA    |  |[Link](https://github.com/vandadim)| 
+| MMFS-GA    |  Imani, Vandad, Carlos Sevilla-Salcedo, Vittorio Fortino, and Jussi Tohka. "Multi-Objective Genetic Algorithm for Multi-View Feature Selection." arXiv preprint arXiv:2305.18352 (2023). |[Link](https://arxiv.org/pdf/2305.18352.pdf)| 
